@@ -61,7 +61,7 @@ public class Main {
         }
 
         double averageTime = totalTime / 30; // Calcula a média do tempo
-        System.out.printf("Média de tempo para %s com %d elementos: %.4f segundos.%n", algorithmName, arrays[0].length, averageTime);
+        System.out.printf("Média de tempo para %s com %d elementos: %.6f segundos.%n", algorithmName, arrays[0].length, averageTime);
     }
 
     // Executa o algoritmo e retorna o tempo de execução em segundos
