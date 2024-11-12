@@ -5,46 +5,67 @@ import java.util.Collections;
 
 public class BucketSort {
 
-    public static void bucketSort(int[] arr) {
-        int max = findMax(arr);
-        int min = findMin(arr); // Encontra o menor valor para normalizar
+    public static <T extends Comparable<T>> void bucketSort(T[] arr) {
+        T max = findMax(arr);
+        T min = findMin(arr);
 
         int numBuckets = (int) Math.sqrt(arr.length);
-        ArrayList<Integer>[] buckets = new ArrayList[numBuckets];
+        ArrayList<T>[] buckets = new ArrayList[numBuckets];
 
         for (int i = 0; i < numBuckets; i++) {
             buckets[i] = new ArrayList<>();
         }
 
         // Distribui os elementos nos buckets, ajustando para o intervalo correto
-        for (int num : arr) {
-            int bucketIndex = (num - min) * numBuckets / (max - min + 1);
+        for (T num : arr) {
+            int bucketIndex = (int) (((double) (num.compareTo(min))) / (max.compareTo(min) + 1) * numBuckets);
             buckets[bucketIndex].add(num);
         }
 
         // Ordena cada bucket e concatena no array original
         int index = 0;
-        for (ArrayList<Integer> bucket : buckets) {
+        for (ArrayList<T> bucket : buckets) {
             Collections.sort(bucket);
-            for (int num : bucket) {
+            for (T num : bucket) {
                 arr[index++] = num;
             }
         }
     }
 
-    private static int findMax(int[] arr) {
-        int max = arr[0];
-        for (int num : arr) {
-            if (num > max) max = num;
+    private static <T extends Comparable<T>> T findMax(T[] arr) {
+        T max = arr[0];
+        for (T num : arr) {
+            if (num.compareTo(max) > 0) max = num;
         }
         return max;
     }
 
-    private static int findMin(int[] arr) {
-        int min = arr[0];
-        for (int num : arr) {
-            if (num < min) min = num;
+    private static <T extends Comparable<T>> T findMin(T[] arr) {
+        T min = arr[0];
+        for (T num : arr) {
+            if (num.compareTo(min) < 0) min = num;
         }
         return min;
+    }
+
+    public static void main(String[] args) {
+        // Exemplo com Integer, que implementa Comparable<Integer>
+        Integer[] arr = {64, 34, 25, 12, 22, 11, 90};
+        
+        System.out.println("Array antes da ordenação:");
+        printArray(arr);
+
+        bucketSort(arr);
+
+        System.out.println("\nArray após a ordenação:");
+        printArray(arr);
+    }
+
+    // Método genérico para imprimir o array
+    public static <T> void printArray(T[] arr) {
+        for (T element : arr) {
+            System.out.print(element + " ");
+        }
+        System.out.println();
     }
 }

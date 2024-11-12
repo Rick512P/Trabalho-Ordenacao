@@ -2,9 +2,10 @@ package jav;
 import java.util.Random;
 
 public class QuickSort {
+
     private static final Random random = new Random();
 
-    public static void quickSort(int[] arr, int low, int high) {
+    public static <T extends Comparable<T>> void quickSort(T[] arr, int low, int high) {
         if (low < high) {
             int pi = randomizedPartition(arr, low, high);
 
@@ -13,18 +14,18 @@ public class QuickSort {
         }
     }
 
-    private static int randomizedPartition(int[] arr, int low, int high) {
+    private static <T extends Comparable<T>> int randomizedPartition(T[] arr, int low, int high) {
         int randomIndex = low + random.nextInt(high - low + 1);
         swap(arr, randomIndex, high); // Coloca o pivô aleatório no final
         return partition(arr, low, high);
     }
 
-    private static int partition(int[] arr, int low, int high) {
-        int pivot = arr[high];
+    private static <T extends Comparable<T>> int partition(T[] arr, int low, int high) {
+        T pivot = arr[high];
         int i = low - 1;
 
         for (int j = low; j < high; j++) {
-            if (arr[j] <= pivot) {
+            if (arr[j].compareTo(pivot) <= 0) {
                 i++;
                 swap(arr, i, j);
             }
@@ -33,16 +34,28 @@ public class QuickSort {
         return i + 1;
     }
 
-    private static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
+    private static <T> void swap(T[] arr, int i, int j) {
+        T temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
 
-    public static void printArray(int[] arr) {
-        for (int i : arr) {
+    public static <T> void printArray(T[] arr) {
+        for (T i : arr) {
             System.out.print(i + " ");
         }
         System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Integer[] arr = {64, 25, 12, 22, 11, 90, 33, 50};
+
+        System.out.println("Array antes da ordenação:");
+        printArray(arr);
+
+        quickSort(arr, 0, arr.length - 1);
+
+        System.out.println("\nArray após a ordenação:");
+        printArray(arr);
     }
 }

@@ -1,8 +1,9 @@
 package jav;
+
 public class SelectionSort {
 
     public static void main(String[] args) {
-        int[] arr = {64, 25, 12, 22, 11};
+        Integer[] arr = {64, 25, 12, 22, 11, 90, 33, 50};
 
         System.out.println("Array antes da ordenação:");
         printArray(arr);
@@ -13,30 +14,29 @@ public class SelectionSort {
         printArray(arr);
     }
 
-    public static void selectionSort(int[] arr) {
+    public static <T extends Comparable<T>> void selectionSort(T[] arr) {
         int n = arr.length;
 
         for (int i = 0; i < n - 1; i++) {
             // Encontra o índice do menor elemento no subarray arr[i..n-1]
             int minIndex = i;
             for (int j = i + 1; j < n; j++) {
-                if (arr[j] < arr[minIndex]) {
+                if (arr[j].compareTo(arr[minIndex]) < 0) {
                     minIndex = j;
                 }
             }
 
             // Troca o elemento de arr[minIndex] com o elemento de arr[i]
-            int temp = arr[minIndex];
+            T temp = arr[minIndex];
             arr[minIndex] = arr[i];
             arr[i] = temp;
         }
     }
 
-    public static void printArray(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
+    public static <T> void printArray(T[] arr) {
+        for (T element : arr) {
+            System.out.print(element + " ");
         }
         System.out.println();
     }
 }
-

@@ -1,8 +1,9 @@
 package jav;
+
 public class MergeSort {
 
     public static void main(String[] args) {
-        int[] arr = {64, 25, 12, 22, 11, 90, 33, 50};
+        Integer[] arr = {64, 25, 12, 22, 11, 90, 33, 50};
 
         System.out.println("Array antes da ordenação:");
         printArray(arr);
@@ -13,7 +14,7 @@ public class MergeSort {
         printArray(arr);
     }
 
-    public static void mergeSort(int[] arr, int left, int right) {
+    public static <T extends Comparable<T>> void mergeSort(T[] arr, int left, int right) {
         if (left < right) {
             // Encontra o meio do array
             int middle = left + (right - left) / 2;
@@ -27,14 +28,14 @@ public class MergeSort {
         }
     }
 
-    public static void merge(int[] arr, int left, int middle, int right) {
+    public static <T extends Comparable<T>> void merge(T[] arr, int left, int middle, int right) {
         // Tamanhos dos subarrays para combinar
         int n1 = middle - left + 1;
         int n2 = right - middle;
 
         // Arrays temporários
-        int[] L = new int[n1];
-        int[] R = new int[n2];
+        T[] L = (T[]) new Comparable[n1];
+        T[] R = (T[]) new Comparable[n2];
 
         // Copia os dados para os arrays temporários
         for (int i = 0; i < n1; i++) {
@@ -50,7 +51,7 @@ public class MergeSort {
 
         // Junta os arrays L e R de volta no array original
         while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
+            if (L[i].compareTo(R[j]) <= 0) {
                 arr[k] = L[i];
                 i++;
             } else {
@@ -75,11 +76,10 @@ public class MergeSort {
         }
     }
 
-    public static void printArray(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
+    public static <T> void printArray(T[] arr) {
+        for (T elem : arr) {
+            System.out.print(elem + " ");
         }
         System.out.println();
     }
 }
-

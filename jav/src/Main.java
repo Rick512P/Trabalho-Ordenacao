@@ -20,7 +20,7 @@ public class Main {
             System.out.println("\nTamanho do Vetor: " + size);
 
             // Para cada tamanho, gerar 30 vetores aleatórios
-            int[][] randomArrays = new int[30][];
+            Integer[][] randomArrays = new Integer[30][];
             for (int i = 0; i < 30; i++) {
                 randomArrays[i] = generateRandomArray(size);
             }
@@ -35,34 +35,29 @@ public class Main {
         }
     }
 
-    // Gera um array de números aleatórios entre 0 e size - 1
-    public static int[] generateRandomArray(int size) {
+    public static Integer[] generateRandomArray(int size) {
         Random random = new Random();
-        int[] array = new int[size];
+        Integer[] array = new Integer[size];
         for (int i = 0; i < size; i++) {
             array[i] = random.nextInt(size);
         }
         return array;
     }
 
-    // Função para testar todos os algoritmos com média de tempo em vetores ordenados
-    public static void testAllAlgorithmsWithAverage(int[][] arrays, boolean ascending) {
-        // Variáveis para acumular o tempo total de cada algoritmo
+    public static <T extends Comparable<T>> void testAllAlgorithmsWithAverage(T[][] arrays, boolean ascending) {
         double bubbleSortTotalTime = 0, insertionSortTotalTime = 0, selectionSortTotalTime = 0;
         double shellSortTotalTime = 0, heapSortTotalTime = 0, mergeSortTotalTime = 0;
         double quickSortTotalTime = 0, countingSortTotalTime = 0, radixSortTotalTime = 0;
         double bucketSortTotalTime = 0;
 
         for (int i = 0; i < 30; i++) {
-            // Cria uma cópia do vetor em ordem crescente ou decrescente
-            int[] arrCopy = arrays[i].clone();
+            T[] arrCopy = arrays[i].clone();
             if (ascending) {
                 QuickSort.quickSort(arrCopy, 0, arrCopy.length - 1);
             } else {
                 QuickSortDesc.quickSort(arrCopy, 0, arrCopy.length - 1);
             }
 
-            // Soma o tempo de cada execução para cada algoritmo
             bubbleSortTotalTime += testSortingAlgorithm("BubbleSort", arrCopy.clone());
             insertionSortTotalTime += testSortingAlgorithm("InsertionSort", arrCopy.clone());
             selectionSortTotalTime += testSortingAlgorithm("SelectionSort", arrCopy.clone());
@@ -70,12 +65,11 @@ public class Main {
             heapSortTotalTime += testSortingAlgorithm("HeapSort", arrCopy.clone());
             mergeSortTotalTime += testSortingAlgorithm("MergeSort", arrCopy.clone());
             quickSortTotalTime += testSortingAlgorithm("QuickSort", arrCopy.clone());
-            countingSortTotalTime += testSortingAlgorithm("CountingSort", arrCopy.clone());
+            countingSortTotalTime += testCountingSort((Integer[]) arrays[i].clone());  // Chamada específica para CountingSort
             radixSortTotalTime += testSortingAlgorithm("RadixSort", arrCopy.clone());
             bucketSortTotalTime += testSortingAlgorithm("BucketSort", arrCopy.clone());
         }
 
-        // Calcula e imprime a média para cada algoritmo
         System.out.printf("\nMédia para BubbleSort: %.4f segundos.%n", bubbleSortTotalTime / 30);
         System.out.printf("Média para InsertionSort: %.4f segundos.%n", insertionSortTotalTime / 30);
         System.out.printf("Média para SelectionSort: %.4f segundos.%n", selectionSortTotalTime / 30);
@@ -88,8 +82,7 @@ public class Main {
         System.out.printf("Média para BucketSort: %.4f segundos.%n", bucketSortTotalTime / 30);
     }
 
-    // Executa o algoritmo de ordenação e retorna o tempo de execução em segundos
-    public static double testSortingAlgorithm(String algorithmName, int[] arr) {
+    public static <T extends Comparable<T>> double testSortingAlgorithm(String algorithmName, T[] arr) {
         long startTime;
         long endTime;
 
@@ -129,11 +122,6 @@ public class Main {
                 QuickSort.quickSort(arr, 0, arr.length - 1);
                 endTime = System.nanoTime();
                 break;
-            case "CountingSort":
-                startTime = System.nanoTime();
-                CountingSort.countingSort(arr);
-                endTime = System.nanoTime();
-                break;
             case "RadixSort":
                 startTime = System.nanoTime();
                 RadixSort.radixSort(arr);
@@ -149,6 +137,13 @@ public class Main {
                 return 0.0;
         }
 
-        return (endTime - startTime) / 1_000_000_000.0; // Converte o tempo para segundos e retorna
+        return (endTime - startTime) / 1_000_000_000.0;
+    }
+
+    public static double testCountingSort(Integer[] arr) {
+        long startTime = System.nanoTime();
+        CountingSort.countingSort(arr);
+        long endTime = System.nanoTime();
+        return (endTime - startTime) / 1_000_000_000.0;
     }
 }

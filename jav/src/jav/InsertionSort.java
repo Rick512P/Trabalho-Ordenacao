@@ -1,8 +1,10 @@
 package jav;
+
 public class InsertionSort {
+
     public static void main(String[] args) {
-        int[] arr = {64, 34, 25, 12, 22, 11, 90};
-        
+        Integer[] arr = {64, 34, 25, 12, 22, 11, 90};
+
         System.out.println("Array antes da ordenação:");
         printArray(arr);
 
@@ -12,15 +14,15 @@ public class InsertionSort {
         printArray(arr);
     }
 
-    public static void insertionSort(int[] arr) {
+    public static <T extends Comparable<T>> void insertionSort(T[] arr) {
         int n = arr.length;
         for (int i = 1; i < n; i++) {
-            int key = arr[i];
+            T key = arr[i];
             int j = i - 1;
 
             // Move elementos de arr[0..i-1] que são maiores que key
             // para uma posição à frente de sua posição atual
-            while (j >= 0 && arr[j] > key) {
+            while (j >= 0 && arr[j].compareTo(key) > 0) {
                 arr[j + 1] = arr[j];
                 j = j - 1;
             }
@@ -28,9 +30,9 @@ public class InsertionSort {
         }
     }
 
-    public static void printArray(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
+    public static <T> void printArray(T[] arr) {
+        for (T elem : arr) {
+            System.out.print(elem + " ");
         }
         System.out.println();
     }
