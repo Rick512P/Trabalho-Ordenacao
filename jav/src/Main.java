@@ -25,7 +25,7 @@ public class Main {
             switch (x) {
                 case 1:
                     System.out.println("\n=== Vetores aleatórios em ordem aleatória ===");
-                    sizes = new int[]{10, 100, 1000}; // Tamanhos de vetor para teste
+                    sizes = new int[]{100, 1000, 10000, 100000, 1000000}; // Tamanhos de vetor para teste
                     for (int size : sizes) {
                         System.out.println("\nTamanho do Vetor: " + size);
 
@@ -40,7 +40,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    sizes = new int[]{10, 100}; // Tamanhos de vetor para teste
+                    sizes = new int[]{1000, 100000}; // Tamanhos de vetor para teste
 
                     for (int size : sizes) {
                         System.out.println("\nTamanho do Vetor: " + size);
